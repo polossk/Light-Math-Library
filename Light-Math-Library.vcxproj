@@ -120,6 +120,7 @@
   <ItemGroup>
     <ClInclude Include="base.hpp" />
     <ClInclude Include="Dense.hpp" />
+    <ClInclude Include="Exp.hpp" />
     <ClInclude Include="Shape.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
