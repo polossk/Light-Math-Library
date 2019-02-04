@@ -68,7 +68,21 @@ namespace lmlib
 		inline const EType &T() const { return expr; }
 	};
 
+	template<typename Saver, typename RValue, typename DType>
+	struct ExpEngine;
+	// todo: ExpEngine
 
+	template<typename Container, typename, DTyper>
+	class RValueExp : public Exp<Container, DType, type::nRValue>
+	{
+	public:
+		inline const TransposeExp<Container, DType> T() const
+		{
+			return TransposeExp<Container, DType>(this->self());
+		}
+
+		// todo: RValueExp
+	};
 
 
 } // namespace lmlib
