@@ -29,5 +29,8 @@
     <ClInclude Include="base.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Exp.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
