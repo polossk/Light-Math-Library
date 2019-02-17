@@ -81,8 +81,15 @@ namespace lmlib
 			return TransposeExp<Container, DType>(this->self());
 		}
 
+		inline Container &operator+=(DType s)
+		{
+
+		}
+
 		// todo: RValueExp
 	};
+
+	
 
 
 } // namespace lmlib

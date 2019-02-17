@@ -4,8 +4,7 @@
 
 namespace lmlib
 {
-
-	// unify all integer typename
+	// ## unify all integer typename
 #ifdef _MSC_VER
 	typedef signed char int8_t;
 	typedef __int16 int16_t;
@@ -19,9 +18,120 @@ namespace lmlib
 #include <inttypes.h>
 #endif
 
-
-	/// define index_t for index usage
+	// ## define index_t for index usage
 	typedef int64_t index_t;
 
+	// ## define baisc operators
+	namespace op
+	{
+		struct plus
+		{
+			template<typename DType>
+			inline static DType Map(DType a, DType b)
+			{
+				return a + b;
+			}
+		};
+		
+		struct minus
+		{
+			template<typename DType>
+			inline static DType Map(DType a, DType b)
+			{
+				return a - b;
+			}
+		};
+
+		struct mul
+		{
+			template<typename DType>
+			inline static DType Map(DType a, DType b)
+			{
+				return a * b;
+			}
+		};
+		
+		struct div
+		{
+			template<typename DType>
+			inline static DType Map(DType a, DType b)
+			{
+				return a / b;
+			}
+		};
+
+		struct rhs
+		{
+			template<typename DType>
+			inline static DType Map(DType a, DType b)
+			{
+				return b;
+			}
+		};
+
+		struct identity
+		{
+			template<typename DType>
+			inline static DType Map(DType a)
+			{
+				return a;
+			}
+		};
+	} // namespace op
+
+
+	// ## define saving operators
+	namespace sv
+	{
+		struct saveto
+		{
+			using OPType = op::rhs;
+			template <typename DType>
+			inline static void Save(DType &a, DType b)
+			{
+				a = b;
+			}
+		};
+
+		struct plusto
+		{
+			using OPType = op::plus;
+			template <typename DType>
+			inline static void Save(DType &a, DType b)
+			{
+				a += b;
+			}
+		};
+
+		struct minusto
+		{
+			using OPType = op::minus;
+			template <typename DType>
+			inline static void Save(DType &a, DType b)
+			{
+				a -= b;
+			}
+		};
+
+		struct multo
+		{
+			using OPType = op::mul;
+			template <typename DType>
+			inline static void Save(DType &a, DType b)
+			{
+				a *= b;
+			}
+		};
+
+		struct divto
+		{
+			using OPType = op::div;
+			template <typename DType>
+			inline static void Save(DType &a, DType b)
+			{
+				a /= b;
+			}
+		};
+	} // namespace sv
 
 } // namespace lmlib
