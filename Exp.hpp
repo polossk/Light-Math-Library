@@ -227,7 +227,7 @@ namespace lmlib
 
 		// comment todo
 		template <typename OP, typename Tlhs, typename Trhs, typename DType, int etype>
-		struct BinaryMapExp : public Exp < BinaryMapExp<OP, Tlhs, Trhs, DType, etype>
+		struct BinaryMapExp : public Exp<BinaryMapExp<OP, Tlhs, Trhs, DType, etype>, DType, etype>
 		{
 			const Tlhs &lhs_;
 			const Trhs &rhs_;
