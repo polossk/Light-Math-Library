@@ -8,10 +8,10 @@ namespace lmlib
 	{
 		namespace type
 		{
-			const int nRValue = 0;
-			const int nMapper = 1;
-			const int nChainer = 3;
-			const int nComplex = 7;
+			const int kRValue = 0;
+			const int kMapper = 1;
+			const int kChainer = 3;
+			const int kComplex = 7;
 		} // namespace type
 
 
@@ -32,7 +32,7 @@ namespace lmlib
 		struct ExpEngine;
 
 		// store a scalar value into a expression
-		template<DType> struct ScalarExp : public Exp<ScalarExp<DType>, DType, type::nMapper>
+		template<DType> struct ScalarExp : public Exp<ScalarExp<DType>, DType, type::kMapper>
 		{
 			DType scalar_;
 			ScalarExp(DType scalar) : scalar_(scalar) {}
@@ -59,15 +59,15 @@ namespace lmlib
 		// mat = 3.2f;
 		// mat_integer = typecast<int>(mat);
 		template<typename DstDType, typename SrcDType, typename EType, int exp_type>
-		inline TypecastExp<DstDType, SrcDType, EType, (exp_type | type::nMapper)>
+		inline TypecastExp<DstDType, SrcDType, EType, (exp_type | type::kMapper)>
 			typecast(const Exp<EType, SrcDType, exp_type> &exp)
 		{
-			return TypecastExp<DstDType, SrcDType, EType, (exp_type | type::nMapper)>(exp.self());
+			return TypecastExp<DstDType, SrcDType, EType, (exp_type | type::kMapper)>(exp.self());
 		}
 
 		// comment todo
 		template<typename EType, typename DType>
-		struct TransposeExp : public Exp<TransposeExp<EType, DType>, DType, type::nChainer>
+		struct TransposeExp : public Exp<TransposeExp<EType, DType>, DType, type::kChainer>
 		{
 			const EType &expr;
 			explicit TransposeExp(const EType &_) : expr(_) {}
@@ -76,7 +76,7 @@ namespace lmlib
 
 		// comment todo
 		template<typename Container, typename DType>
-		class RValueExp : public Exp<Container, DType, type::nRValue>
+		class RValueExp : public Exp<Container, DType, type::kRValue>
 		{
 		public:
 			inline const TransposeExp<Container, DType> T() const
@@ -114,7 +114,7 @@ namespace lmlib
 				return *(this->ptrself());
 			}
 
-			inline Container &__assign(const Exp<Container, DType, type::nRValue> &exp);
+			inline Container &__assign(const Exp<Container, DType, type::kRValue> &exp);
 
 			template <typename E, int etype>
 			inline Container &__assign(const Exp<E, DType, etype> &exp)
@@ -154,7 +154,7 @@ namespace lmlib
 
 		// comment todo
 		template <typename Tlhs, typename Trhs, bool ltrans, bool rtrans, typenam DType>
-		struct DotExp : public Exp<DotExp<Tlhs, Trhs, ltrans, rtrans, DType>, DType, type::nComplex>
+		struct DotExp : public Exp<DotExp<Tlhs, Trhs, ltrans, rtrans, DType>, DType, type::kComplex>
 		{
 			const Tlhs &lhs_;
 			const Trhs &rhs_;
@@ -211,15 +211,15 @@ namespace lmlib
 
 		template <typename OP, typename TA, typename TB, typename TC, typename DType,
 			int eta, int etb, int etc>
-			inline TernaryMapExp<OP, TA, TB, TC, DType, (eta | etb | etc | type::nMapper)>
+			inline TernaryMapExp<OP, TA, TB, TC, DType, (eta | etb | etc | type::kMapper)>
 			MakeExp(const Exp<TA, DType, eta> &_1, const Exp<TB, DType, etb> &_2, const Exp<TC, DType, etc> &_3)
 		{
-			return TernaryMapExp<OP, TA, TB, TC, DType, (eta | etb | etc | type::nMapper)>(_1.self(), _2.self(), _3.self());
+			return TernaryMapExp<OP, TA, TB, TC, DType, (eta | etb | etc | type::kMapper)>(_1.self(), _2.self(), _3.self());
 		}
 
 		template <typename OP, typename TA, typename TB, typename TC, typename DType,
 			int eta, int etb, int etc>
-			inline TernaryMapExp<OP, TA, TB, TC, DType, (eta | etb | etc | type::nMapper)>
+			inline TernaryMapExp<OP, TA, TB, TC, DType, (eta | etb | etc | type::kMapper)>
 			F(const Exp<TA, DType, eta> &_1, const Exp<TB, DType, etb> &_2, const Exp<TC, DType, etc> &_3)
 		{
 			return MakeExp<OP>(_1, _2, _3);
@@ -235,42 +235,42 @@ namespace lmlib
 		};
 
 		template <typename OP, typename Tlhs, typename Trhs, typename DType, int etlhs, int etrhs>
-		inline BinaryMapExp<OP, Tlhs, Trhs, DType, (etlhs | etrhs | type::nMapper)>
+		inline BinaryMapExp<OP, Tlhs, Trhs, DType, (etlhs | etrhs | type::kMapper)>
 			MakeExp(const Exp<Tlhs, DType, etlhs> & lhs, const Exp<Trhs, DType, etrhs> & rhs)
 		{
-			return BinaryMapExp<OP, Tlhs, Trhs, DType, (etlhs | etrhs | type::nMapper)>(lhs.self(), rhs.self());
+			return BinaryMapExp<OP, Tlhs, Trhs, DType, (etlhs | etrhs | type::kMapper)>(lhs.self(), rhs.self());
 		}
 
 		template <typename OP, typename Tlhs, typename Trhs, typename DType, int etlhs, int etrhs>
-		inline BinaryMapExp<OP, Tlhs, Trhs, DType, (etlhs | etrhs | type::nMapper)>
+		inline BinaryMapExp<OP, Tlhs, Trhs, DType, (etlhs | etrhs | type::kMapper)>
 			F(const Exp<Tlhs, DType, etlhs> & lhs, const Exp<Trhs, DType, etrhs> & rhs)
 		{
 			return MakeExp<OP>(lhs, rhs);
 		}
 
 		template <typename Tlhs, typename Trhs, typename DType, int etlhs, int etrhs>
-		inline BinaryMapExp<op::plus, Tlhs, Trhs, DType, (etlhs | etrhs | type::nMapper)>
+		inline BinaryMapExp<op::plus, Tlhs, Trhs, DType, (etlhs | etrhs | type::kMapper)>
 			operator+(const Exp<Tlhs, DType, etlhs> & lhs, const Exp<Trhs, DType, etrhs> & rhs)
 		{
 			return MakeExp<op::plus>(lhs, rhs);
 		}
 
 		template <typename Tlhs, typename Trhs, typename DType, int etlhs, int etrhs>
-		inline BinaryMapExp<op::minus, Tlhs, Trhs, DType, (etlhs | etrhs | type::nMapper)>
+		inline BinaryMapExp<op::minus, Tlhs, Trhs, DType, (etlhs | etrhs | type::kMapper)>
 			operator-(const Exp<Tlhs, DType, etlhs> & lhs, const Exp<Trhs, DType, etrhs> & rhs)
 		{
 			return MakeExp<op::minus>(lhs, rhs);
 		}
 
 		template <typename Tlhs, typename Trhs, typename DType, int etlhs, int etrhs>
-		inline BinaryMapExp<op::mul, Tlhs, Trhs, DType, (etlhs | etrhs | type::nMapper)>
+		inline BinaryMapExp<op::mul, Tlhs, Trhs, DType, (etlhs | etrhs | type::kMapper)>
 			operator*(const Exp<Tlhs, DType, etlhs> & lhs, const Exp<Trhs, DType, etrhs> & rhs)
 		{
 			return MakeExp<op::mul>(lhs, rhs);
 		}
 
 		template <typename Tlhs, typename Trhs, typename DType, int etlhs, int etrhs>
-		inline BinaryMapExp<op::div, Tlhs, Trhs, DType, (etlhs | etrhs | type::nMapper)>
+		inline BinaryMapExp<op::div, Tlhs, Trhs, DType, (etlhs | etrhs | type::kMapper)>
 			operator/(const Exp<Tlhs, DType, etlhs> & lhs, const Exp<Trhs, DType, etrhs> & rhs)
 		{
 			return MakeExp<op::div>(lhs, rhs);
@@ -297,6 +297,5 @@ namespace lmlib
 		{
 			return MakeExp<OP>(src);
 		}
-
 	} // namespace expr
 } // namespace lmlib
