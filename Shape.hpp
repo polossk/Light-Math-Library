@@ -4,7 +4,6 @@
 
 namespace lmlib
 {
-
 	template<int ndimension>
 	struct Shape
 	{
