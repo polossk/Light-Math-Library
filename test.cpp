@@ -22,8 +22,8 @@ void unittest_shape() {
   display((c.slice<2, 5>()));
   assert(a != b);
   assert(a.size() == b.size());
-  assert(a.flat_to_1D() == b.flat_to_1D());
-  assert(a.flat_to_2D() == Shape2(15, 4));
+  assert(a.FlatTo1D() == b.FlatTo1D());
+  assert(a.FlatTo2D() == Shape2(15, 4));
   assert(a.subshape() == Shape2(3, 4));
   assert((c.slice<2, 5>()) == Shape3(7, 4, 3));
   assert((c.prodshape(2, 5)) == Shape3(7, 4, 3).size());

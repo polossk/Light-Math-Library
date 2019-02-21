@@ -36,7 +36,7 @@ template <int ndimension> struct Shape {
    * @brief basically nSubdim equals to nDimension - 1
    *
    * 基本上等同于 nDimension - 1
-   * @note 主要用于后续处理子张量的尺寸 subshape()
+   * @note 主要用于后续处理子张量的尺寸 Subshape()
    */
   static const int nSubdim = ndimension - 1;
 
@@ -125,9 +125,9 @@ template <int ndimension> struct Shape {
    * 该形状下的张量可以储存多少元素
    *
    * @return index_t 张量的大小
-   * @note (5, 3, 4).size() => 5 * 3 * 4 => 60
+   * @note (5, 3, 4).Size() => 5 * 3 * 4 => 60
    */
-  inline index_t size(void) const {
+  inline index_t Size() const {
     index_t ret = this->shape_[0];
 #pragma unroll
     for (int i = 1; i < nDimension; i++)
@@ -141,11 +141,11 @@ template <int ndimension> struct Shape {
    * 把张量变换为一阶张量
    *
    * @return Shape<1> 变换后一阶张量的尺寸
-   * @note (5, 3, 4).flat_to_1D() => (60,)
+   * @note (5, 3, 4).FlatTo1D() => (60,)
    */
-  inline Shape<1> flat_to_1D() const {
+  inline Shape<1> FlatTo1D() const {
     Shape<1> ret;
-    ret[0] = this->size();
+    ret[0] = this->Size();
     return ret;
   }
 
@@ -155,9 +155,9 @@ template <int ndimension> struct Shape {
    * 把张量变换为二阶张量
    *
    * @return Shape<2> 变换后二阶张量的尺寸
-   * @note (5, 3, 4).flat_to_2D => (15, 4)
+   * @note (5, 3, 4).FlatTo2D() => (15, 4)
    */
-  inline Shape<2> flat_to_2D() const {
+  inline Shape<2> FlatTo2D() const {
     Shape<2> ret;
     ret[1] = this->shape_[nDimension - 1];
     index_t placeholder = 1;
@@ -174,9 +174,9 @@ template <int ndimension> struct Shape {
    * 子张量的尺寸大小
    *
    * @return Shape<nSubdim> 子张量的尺寸
-   * @note (5, 3, 4).subshape() => (3, 4)
+   * @note (5, 3, 4).Subshape() => (3, 4)
    */
-  inline Shape<nSubdim> subshape() const {
+  inline Shape<nSubdim> Subshape() const {
     Shape<nSubdim> ret;
 #pragma unroll
     for (int i = 1; i < nDimension; i++)
@@ -192,10 +192,10 @@ template <int ndimension> struct Shape {
    * @tparam dimstart 开始维度
    * @tparam dimend 结束维度
    * @return Shape<dimend - dimstart> 切片的尺寸
-   * @note (5, 6, 7, 4, 3).slice<2, 5>() => (7, 4, 3)
+   * @note (5, 6, 7, 4, 3).Slice<2, 5>() => (7, 4, 3)
    */
   template <int dimstart, int dimend>
-  inline Shape<dimend - dimstart> slice() const {
+  inline Shape<dimend - dimstart> Slice() const {
     Shape<dimend - dimstart> ret;
 #pragma unroll
     for (int i = dimstart; i < dimend; i++)
@@ -211,9 +211,9 @@ template <int ndimension> struct Shape {
    * @param dimstart 开始维度
    * @param dimend 结束维度
    * @return index_t [dimstart,dimend) 的元素个数
-   * @note (5, 6, 7, 4, 3).prodshape(2, 5) => 7 * 4 * 3 => 84
+   * @note (5, 6, 7, 4, 3).Prodshape(2, 5) => 7 * 4 * 3 => 84
    */
-  inline index_t prodshape(int dimstart, int dimend) {
+  inline index_t Prodshape(int dimstart, int dimend) {
     index_t ret = 1;
 #pragma unroll
     for (int i = dimstart; i < dimend; i++)
