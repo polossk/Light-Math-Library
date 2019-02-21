@@ -2,8 +2,7 @@
 
 #include <iostream>
 
-namespace lmlib
-{
+namespace lmlib {
 // ## unify all integer typename
 #ifdef _MSC_VER
 typedef signed char int8_t;
@@ -28,112 +27,75 @@ using default_real_t = double;
 #endif // !LMLIB_DEFAULT_DTYPE
 
 // ## define baisc operators
-namespace op
-{
-struct plus
-{
-  template <typename DType>
-  inline static DType Map(DType a, DType b)
-  {
+namespace op {
+struct plus {
+  template <typename DType> inline static DType Map(DType a, DType b) {
     return a + b;
   }
 };
 
-struct minus
-{
-  template <typename DType>
-  inline static DType Map(DType a, DType b)
-  {
+struct minus {
+  template <typename DType> inline static DType Map(DType a, DType b) {
     return a - b;
   }
 };
 
-struct mul
-{
-  template <typename DType>
-  inline static DType Map(DType a, DType b)
-  {
+struct mul {
+  template <typename DType> inline static DType Map(DType a, DType b) {
     return a * b;
   }
 };
 
-struct div
-{
-  template <typename DType>
-  inline static DType Map(DType a, DType b)
-  {
+struct div {
+  template <typename DType> inline static DType Map(DType a, DType b) {
     return a / b;
   }
 };
 
-struct rhs
-{
-  template <typename DType>
-  inline static DType Map(DType a, DType b)
-  {
+struct rhs {
+  template <typename DType> inline static DType Map(DType a, DType b) {
     return b;
   }
 };
 
-struct identity
-{
-  template <typename DType>
-  inline static DType Map(DType a)
-  {
-    return a;
-  }
+struct identity {
+  template <typename DType> inline static DType Map(DType a) { return a; }
 };
 } // namespace op
 
 // ## define saving operators
-namespace sv
-{
-struct saveto
-{
+namespace sv {
+struct saveto {
   using OPType = op::rhs;
-  template <typename DType>
-  inline static void Save(DType &a, DType b)
-  {
+  template <typename DType> inline static void Save(DType &a, DType b) {
     a = b;
   }
 };
 
-struct plusto
-{
+struct plusto {
   using OPType = op::plus;
-  template <typename DType>
-  inline static void Save(DType &a, DType b)
-  {
+  template <typename DType> inline static void Save(DType &a, DType b) {
     a += b;
   }
 };
 
-struct minusto
-{
+struct minusto {
   using OPType = op::minus;
-  template <typename DType>
-  inline static void Save(DType &a, DType b)
-  {
+  template <typename DType> inline static void Save(DType &a, DType b) {
     a -= b;
   }
 };
 
-struct multo
-{
+struct multo {
   using OPType = op::mul;
-  template <typename DType>
-  inline static void Save(DType &a, DType b)
-  {
+  template <typename DType> inline static void Save(DType &a, DType b) {
     a *= b;
   }
 };
 
-struct divto
-{
+struct divto {
   using OPType = op::div;
-  template <typename DType>
-  inline static void Save(DType &a, DType b)
-  {
+  template <typename DType> inline static void Save(DType &a, DType b) {
     a /= b;
   }
 };

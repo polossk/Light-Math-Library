@@ -19,14 +19,14 @@ void unittest_shape() {
   display(a);
   display(b);
   display(c);
-  display((c.slice<2, 5>()));
+  display((c.Slice<2, 5>()));
   assert(a != b);
-  assert(a.size() == b.size());
+  assert(a.Size() == b.Size());
   assert(a.FlatTo1D() == b.FlatTo1D());
   assert(a.FlatTo2D() == Shape2(15, 4));
-  assert(a.subshape() == Shape2(3, 4));
-  assert((c.slice<2, 5>()) == Shape3(7, 4, 3));
-  assert((c.prodshape(2, 5)) == Shape3(7, 4, 3).size());
+  assert(a.Subshape() == Shape2(3, 4));
+  assert((c.Slice<2, 5>()) == Shape3(7, 4, 3));
+  assert((c.Prodshape(2, 5)) == Shape3(7, 4, 3).Size());
   cout << "unittest_shape complete.\n";
 }
 
