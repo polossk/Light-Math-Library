@@ -10,3 +10,4 @@ struct Stream {
 };
 } // namespace lmlib
 #endif // LIGHT_MATH_LIBRARY_STREAM_HPP
+

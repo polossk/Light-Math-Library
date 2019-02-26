@@ -12,9 +12,12 @@ def deal(filename):
     with open(filename, 'r', encoding='UTF-8') as fin:
         text_data = fin.readlines()
     text_data = [_.rstrip() for _ in text_data]
+    while len(text_data[-1]) == 0:
+        del text_data[-1]
     with open(filename, "w", encoding='UTF-8') as fout:
         for line in text_data:
             print(line, file=fout)
+        print(file=fout)
     print(filename, "done.")
 
 
@@ -28,3 +31,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

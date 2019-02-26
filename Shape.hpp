@@ -339,3 +339,4 @@ inline std::ostream &operator<<(std::ostream &os, const Shape<ndimension> &_) {
 } // namespace lmlib
 
 #endif // LIGHT_MATH_LIBRARY_SHAPE_HPP
+
