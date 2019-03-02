@@ -28,17 +28,17 @@ template <int ndimension> struct Shape {
    * @brief indecating n-dimension tensor's shape
    *
    * 张量的维度
-   * @note 例如 2 阶张量（矩阵）的 nDimension = 2，4 阶张量的 nDimension = 4
+   * @note 例如 2 阶张量（矩阵）的 kDimension = 2，4 阶张量的 kDimension = 4
    */
-  static const int nDimension = ndimension;
+  static const int kDimension = ndimension;
 
   /**
-   * @brief basically nSubdim equals to nDimension - 1
+   * @brief basically kSubdim equals to kDimension - 1
    *
-   * 基本上等同于 nDimension - 1
+   * 基本上等同于 kDimension - 1
    * @note 主要用于后续处理子张量的尺寸 Subshape()
    */
-  static const int nSubdim = ndimension - 1;
+  static const int kSubdim = ndimension - 1;
 
   /**
    * @brief storage the shape information
@@ -49,7 +49,7 @@ template <int ndimension> struct Shape {
    * @note 一个 n 阶张量需要一个长度为 n 的数组来储存每一维度的尺寸信息。
    * 第 i 个元素记录第 i 维的大小。
    */
-  index_t shape_[nDimension];
+  index_t shape_[kDimension];
 
   /**
    * @brief Construct a new Shape object
@@ -62,9 +62,9 @@ template <int ndimension> struct Shape {
    *
    * @param s 从 s 复制一个新 Shape 对象
    */
-  inline Shape(const Shape<nDimension> &s) {
+  inline Shape(const Shape<kDimension> &s) {
 #pragma unroll
-    for (int i = 0; i < nDimension; i++)
+    for (int i = 0; i < kDimension; i++)
       this->shape_[i] = s[i];
   }
 
@@ -97,9 +97,9 @@ template <int ndimension> struct Shape {
    * @return true 两者相同
    * @return false 两者不同
    */
-  inline bool operator==(const Shape<nDimension> &s) const {
+  inline bool operator==(const Shape<kDimension> &s) const {
 #pragma unroll
-    for (int i = 0; i < nDimension; i++) {
+    for (int i = 0; i < kDimension; i++) {
       if (s.shape_[i] != this->shape_[i])
         return false;
     }
@@ -115,7 +115,7 @@ template <int ndimension> struct Shape {
    * @return true 两者不同
    * @return false 两者相同
    */
-  inline bool operator!=(const Shape<nDimension> &s) const {
+  inline bool operator!=(const Shape<kDimension> &s) const {
     return !(*this == s);
   }
 
@@ -130,7 +130,7 @@ template <int ndimension> struct Shape {
   inline index_t Size() const {
     index_t ret = this->shape_[0];
 #pragma unroll
-    for (int i = 1; i < nDimension; i++)
+    for (int i = 1; i < kDimension; i++)
       ret *= this->shape_[i];
     return ret;
   }
@@ -159,10 +159,10 @@ template <int ndimension> struct Shape {
    */
   inline Shape<2> FlatTo2D() const {
     Shape<2> ret;
-    ret[1] = this->shape_[nDimension - 1];
+    ret[1] = this->shape_[kDimension - 1];
     index_t placeholder = 1;
 #pragma unroll
-    for (int i = 0; i < nSubdim; i++)
+    for (int i = 0; i < kSubdim; i++)
       placeholder *= this->shape_[i];
     ret[0] = placeholder;
     return ret;
@@ -173,13 +173,13 @@ template <int ndimension> struct Shape {
    *
    * 子张量的尺寸大小
    *
-   * @return Shape<nSubdim> 子张量的尺寸
+   * @return Shape<kSubdim> 子张量的尺寸
    * @note (5, 3, 4).Subshape() => (3, 4)
    */
-  inline Shape<nSubdim> Subshape() const {
-    Shape<nSubdim> ret;
+  inline Shape<kSubdim> Subshape() const {
+    Shape<kSubdim> ret;
 #pragma unroll
-    for (int i = 1; i < nDimension; i++)
+    for (int i = 1; i < kDimension; i++)
       ret[i - 1] = this->shape_[i];
     return ret;
   }
@@ -339,4 +339,3 @@ inline std::ostream &operator<<(std::ostream &os, const Shape<ndimension> &_) {
 } // namespace lmlib
 
 #endif // LIGHT_MATH_LIBRARY_SHAPE_HPP
-
