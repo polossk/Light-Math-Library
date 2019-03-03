@@ -20,11 +20,15 @@ struct Tensor : public TRValue<Tensor<dimension, DType>, dimension, DType> {
   Stream *stream_;
 
   inline Tensor() : stream_(NULL) {}
+
   inline Tensor(const Shape<dimension> &shape) : shape_(shape), stream_(NULL) {}
+
   inline Tensor(DType *dptr, const Shape<dimension> &shape)
       : dptr_(dptr), shape_(shape), stride_(shape[kSubDim]), stream_(NULL) {}
+
   inline Tensor(DType *dptr, const Shape<dimension> &shape, Stream *stream)
       : dptr_(dptr), shape_(shape), stride_(shape[kSubDim]), stream_(stream) {}
+
   inline Tensor(DType *dptr, const Shape<dimension> &shape, index_t stride,
                 Stream *stream)
       : dptr_(dptr), shape_(shape), stride_(stride), stream_(stream) {}
@@ -83,6 +87,73 @@ struct Tensor : public TRValue<Tensor<dimension, DType>, dimension, DType> {
   }
 
   inline Tensor<dimension, DType> &operator=(const DType &exp) {
+    return this->__assign(exp);
+  }
+};
+
+// Tensor1D
+template <typename DType>
+struct Tensor<1, DType> : public TRValue<Tensor<1, DType>, 1, DType> {
+public:
+  DType *dptr_;
+  Shape<1> shape_;
+  index_t stride_;
+  Stream<Device> *stream_;
+
+  // constructor
+  inline Tensor(void) : stream_(NULL) {}
+
+  inline Tensor(const Shape<1> &shape) : shape_(shape), stream_(NULL) {}
+
+  inline Tensor(DType *dptr, Shape<1> shape)
+      : dptr_(dptr), shape_(shape), stride_(shape[0]), stream_(NULL) {}
+
+  inline Tensor(DType *dptr, Shape<1> shape, Stream<Device> *stream)
+      : dptr_(dptr), shape_(shape), stride_(shape[0]), stream_(stream) {}
+
+  inline Tensor(DType *dptr, Shape<1> shape, index_t stride,
+                Stream<Device> *stream)
+      : dptr_(dptr), shape_(shape), stride_(stride), stream_(stream) {}
+
+  inline void set_stream(Stream<Device> *stream) { this->stream_ = stream; }
+
+  inline Tensor<1, DType> FlatTo1D(void) const { return *this; }
+
+  inline Tensor<2, DType> FlatTo2D(void) const {
+    return Tensor<2, DType>(dptr_, shape_.FlatTo2D(), stride_, stream_);
+  }
+
+  inline Tensor<1, DType> Slice(index_t begin, index_t end) const {
+    Shape<1> s;
+    s[0] = end - begin;
+    return Tensor<1, DType>(dptr_ + begin, s, s[0], stream_);
+  }
+
+  inline bool CheckContiguous(void) const { return true; }
+
+  inline index_t MSize(void) const { return shape_[0]; }
+
+  inline index_t size(index_t i) const { return shape_[0]; }
+
+  inline DType &operator[](index_t idx) { return dptr_[idx]; }
+
+  inline const DType &operator[](index_t idx) const { return dptr_[idx]; }
+
+  /*!\brief implement the assignment of same type */
+  inline Tensor<1, DType> &operator=(const Tensor<1, DType> &exp) {
+    dptr_ = exp.dptr_;
+    shape_ = exp.shape_;
+    stride_ = exp.stride_;
+    stream_ = exp.stream_;
+    return *this;
+  }
+
+  template <typename E, int etype>
+  inline Tensor<1, DType> &operator=(const expr::Exp<E, DType, etype> &exp) {
+    return this->__assign(exp);
+  }
+
+  inline Tensor<1, DType> &operator=(const DType &exp) {
     return this->__assign(exp);
   }
 };
