@@ -159,6 +159,23 @@ public:
 };
 
 //
+inline void InitTensorEngine(int device_id = 0);
+
+inline void ShutdownTensorEngine();
+
+inline void SetDevice(int device_id);
+
+inline Stream *NewStream(int device_id = -1);
+
+inline void DeleteStream(Stream *stream);
+
+template <int dim, typename DType>
+inline void AllocSpace(Tensor<dim, DType> *obj, bool pad = MSHADOW_ALLOC_PAD);
+
+template <int dim, typename DType>
+inline void FreeSpace(Tensor<dim, DType> *obj);
+
+//
 template <typename Saver, typename RValue, int dim, typename DType,
           typename ExpType, int etype>
 inline void MapExp(TRValue<RValue, dim, DType> *dst,
