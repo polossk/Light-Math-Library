@@ -17,6 +17,10 @@ typedef unsigned __int64 uint64_t;
 #include <inttypes.h>
 #endif
 
+#ifndef MSHADOW_ALLOC_PAD
+#define MSHADOW_ALLOC_PAD true
+#endif
+
 // ## define index_t for index usage
 typedef int64_t index_t;
 
