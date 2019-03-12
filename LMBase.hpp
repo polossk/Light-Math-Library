@@ -1,4 +1,5 @@
-#pragma once
+#ifndef LMLIB_LMBASE_HPP_
+#define LMLIB_LMBASE_HPP_
 
 #include <iostream>
 
@@ -107,3 +108,4 @@ struct divto {
 
 } // namespace lmlib
 
+#endif // LMLIB_LMBASE_HPP_
