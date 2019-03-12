@@ -1,7 +1,7 @@
-#ifndef LIGHT_MATH_LIBRARY_STREAM_HPP
-#define LIGHT_MATH_LIBRARY_STREAM_HPP
+#ifndef LMLIB_STREAM_HPP_
+#define LMLIB_STREAM_HPP_
 
-#include "base.hpp"
+#include "LMBase.hpp"
 
 namespace lmlib {
 struct Stream {
@@ -9,5 +9,5 @@ struct Stream {
   inline bool CheckIdle() { return true; }
 };
 } // namespace lmlib
-#endif // LIGHT_MATH_LIBRARY_STREAM_HPP
 
+#endif // LMLIB_STREAM_HPP_

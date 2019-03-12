@@ -1,5 +1,5 @@
-#ifndef LIGHT_MATH_LIBRARY_SHAPE_HPP
-#define LIGHT_MATH_LIBRARY_SHAPE_HPP
+#ifndef LMLIB_SHAPE_HPP_
+#define LMLIB_SHAPE_HPP_
 
 /**
  * @file Shape.hpp
@@ -13,7 +13,7 @@
  * lmlib::Shape<int ndimmension> 的定义与实现
  */
 
-#include "base.hpp"
+#include "LMBase.hpp"
 
 namespace lmlib {
 
@@ -338,4 +338,4 @@ inline std::ostream &operator<<(std::ostream &os, const Shape<ndimension> &_) {
 }
 } // namespace lmlib
 
-#endif // LIGHT_MATH_LIBRARY_SHAPE_HPP
+#endif // LMLIB_SHAPE_HPP_

@@ -1,6 +1,7 @@
-#pragma once
+#ifndef LMLIB_EXP_HPP_
+#define LMLIB_EXP_HPP_
 
-#include "base.hpp"
+#include "LMBase.hpp"
 
 namespace lmlib {
 namespace expr {
@@ -288,3 +289,4 @@ F(const Exp<TA, DType, etype> &src) {
 } // namespace expr
 } // namespace lmlib
 
+#endif // LMLIB_EXP_HPP_

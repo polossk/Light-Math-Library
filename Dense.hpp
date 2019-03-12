@@ -1,9 +1,13 @@
-#pragma once
+#ifndef LMLIB_DENSE_HPP_
+#define LMLIB_DENSE_HPP_
+
+#include <iostream>
+#include <string>
 
 #include "Exp.hpp"
+#include "LMBase.hpp"
 #include "Shape.hpp"
 #include "Stream.hpp"
-#include "base.hpp"
 
 namespace lmlib {
 // comment todo
@@ -175,10 +179,40 @@ inline void AllocSpace(Tensor<dim, DType> *obj, bool pad = MSHADOW_ALLOC_PAD);
 template <int dim, typename DType>
 inline void FreeSpace(Tensor<dim, DType> *obj);
 
+template <int dim, typename DType>
+inline Tensor<dim, DType> NewTensor(const Shape<dim> &shape, DType initv,
+                                    bool pad = MSHADOW_ALLOC_PAD,
+                                    Stream *stream = NULL);
+
+template <int dim, typename DType>
+inline void Copy(Tensor<dim, DType> dst, const Tensor<dim, DType> &src,
+                 Stream *stream = NULL);
+
+//
+template <typename IndexType, typename DType>
+inline void IndexFill(Tensor<2, DType> dst, const Tensor<1, IndexType> &index,
+                      const Tensor<2, DType> &src);
+
+//
+template <typename KDType, typename VDType>
+inline void SortByKey(Tensor<1, KDType> keys, Tensor<1, VDType> values,
+                      bool is_ascend = true);
+
+//
+template <typename VDType, typename SDType>
+inline void VectorizedSort(Tensor<1, VDType> values,
+                           Tensor<1, SDType> segments);
+
 //
 template <typename Saver, typename RValue, int dim, typename DType,
           typename ExpType, int etype>
 inline void MapExp(TRValue<RValue, dim, DType> *dst,
                    const expr::Exp<ExpType, DType, etype> &exp);
 
+//
+template <typename DType>
+inline void VectorDot(Tensor<1, DType> dst, const Tensor<1, DType> &lhs,
+                      const Tensor<1, DType> &rhs);
 } // namespace lmlib
+
+#endif // LMLIB_DENSE_HPP_
