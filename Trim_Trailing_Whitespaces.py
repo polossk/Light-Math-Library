@@ -17,7 +17,7 @@ def deal(filename):
     with open(filename, "w", encoding='UTF-8') as fout:
         for line in text_data:
             print(line, file=fout)
-        print(file=fout)
+        # print(file=fout)
     print(filename, "done.")
 
 
@@ -31,4 +31,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
