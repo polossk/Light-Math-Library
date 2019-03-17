@@ -125,6 +125,65 @@ private:
   Plan<EType, DType> src_;
 };
 
+template <typename OP, typename TA, typename TB, typename DType, int etype>
+inline Plan<BinaryMapExp<OP, TA, TB, DType, etype>, DType>
+MakePlan(const BinaryMapExp<OP, TA, TB, DType, etype> &e);
+
+template <typename OP, typename TA, typename TB, typename TC, typename DType,
+          int etype>
+inline Plan<TernaryMapExp<OP, TA, TB, TC, DType, etype>, DType>
+MakePlan(const TernaryMapExp<OP, TA, TB, TC, DType, etype> &e);
+
+template <typename DType>
+inline Plan<ScalarExp<DType>, DType> MakePlan(const ScalarExp<DType> &e) {
+  return Plan<ScalarExp<DType>, DType>(e.scalar_);
+}
+
+template <typename DstDType, typename SrcDType, typename EType, int etype>
+inline Plan<TypecastExp<DstDType, SrcDType, EType, etype>, DstDType>
+MakePlan(const TypecastExp<DstDType, SrcDType, EType, etype> &e) {
+  return Plan<TypecastExp<DstDType, SrcDType, EType, etype>, DstDType>(
+      MakePlan(e.exp));
+}
+
+template <typename T, typename DType>
+inline Plan<T, DType> MakePlan(const RValueExp<T, DType> &e) {
+  return Plan<T, DType>(e.self());
+}
+
+template <typename T, typename DType>
+inline Plan<TransposeExp<T, DType>, DType>
+MakePlan(const TransposeExp<T, DType> &e) {
+  return Plan<TransposeExp<T, DType>, DType>(MakePlan(e.exp));
+}
+
+template <typename T, typename SrcExp, int dim, typename DType>
+inline Plan<T, DType> MakePlan(const MakeTensorExp<T, SrcExp, dim, DType> &e) {
+  return Plan<T, DType>(e.real_self());
+}
+
+template <typename OP, typename TA, typename DType, int etype>
+inline Plan<UnaryMapExp<OP, TA, DType, etype>, DType>
+MakePlan(const UnaryMapExp<OP, TA, DType, etype> &e) {
+  return Plan<UnaryMapExp<OP, TA, DType, etype>, DType>(MakePlan(e.src_));
+}
+
+template <typename OP, typename TA, typename TB, typename DType, int etype>
+inline Plan<BinaryMapExp<OP, TA, TB, DType, etype>, DType>
+MakePlan(const BinaryMapExp<OP, TA, TB, DType, etype> &e) {
+  return Plan<BinaryMapExp<OP, TA, TB, DType, etype>, DType>(MakePlan(e.lhs_),
+                                                             MakePlan(e.rhs_));
+}
+
+// Ternary
+template <typename OP, typename TA, typename TB, typename TC, typename DType,
+          int etype>
+inline Plan<TernaryMapExp<OP, TA, TB, TC, DType, etype>, DType>
+MakePlan(const TernaryMapExp<OP, TA, TB, TC, DType, etype> &e) {
+  return Plan<TernaryMapExp<OP, TA, TB, TC, DType, etype>, DType>(
+      MakePlan(e.item1_), MakePlan(e.item2_), MakePlan(e.item3_));
+}
+
 } // namespace expr
 
 } // namespace lmlib
