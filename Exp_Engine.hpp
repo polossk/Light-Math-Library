@@ -184,6 +184,55 @@ MakePlan(const TernaryMapExp<OP, TA, TB, TC, DType, etype> &e) {
       MakePlan(e.item1_), MakePlan(e.item2_), MakePlan(e.item3_));
 }
 
+// if ExpInfo<E>::kDim == -1, mismatching expression
+template <typename E> struct ExpInfo { static const int kDim = -1; };
+
+template <typename DType> struct ExpInfo<ScalarExp<DType>> {
+  static const int kDim = 0;
+};
+
+template <typename E, typename DType> struct ExpInfo<TransposeExp<E, DType>> {
+  static const int kDim = ExpInfo<E>::kDim;
+};
+
+template <typename DstDType, typename SrcDType, typename EType, int etype>
+struct ExpInfo<TypecastExp<DstDType, SrcDType, EType, etype>> {
+  static const int kDim = ExpInfo<EType>::kDim;
+};
+
+template <int dim, typename DType> struct ExpInfo<Tensor<dim, DType>> {
+  static const int kDim = dim;
+};
+
+template <typename T, typename SrcExp, int dim, typename DType>
+struct ExpInfo<MakeTensorExp<T, SrcExp, dim, DType>> {
+  static const int kDimSrc = ExpInfo<SrcExp>::kDim;
+  static const int kDim = kDimSrc >= 0 ? dim : -1;
+};
+template <typename OP, typename TA, typename DType, int etype>
+struct ExpInfo<UnaryMapExp<OP, TA, DType, etype>> {
+  static const int kDim = ExpInfo<TA>::kDim;
+};
+template <typename OP, typename TA, typename TB, typename DType, int etype>
+struct ExpInfo<BinaryMapExp<OP, TA, TB, DType, etype>> {
+  static const int kDimLhs = ExpInfo<TA>::kDim;
+  static const int kDimRhs = ExpInfo<TB>::kDim;
+  static const int kDim =
+      (kDimLhs >= 0 && kDimRhs >= 0)
+          ? (kDimLhs == 0
+                 ? kDimRhs
+                 : ((kDimRhs == 0 || kDimLhs == kDimRhs) ? kDimLhs : -1))
+          : -1;
+};
+template <typename OP, typename TA, typename TB, typename TC, typename DType,
+          int etype>
+struct ExpInfo<TernaryMapExp<OP, TA, TB, TC, DType, etype>> {
+  static const int kDimItem1 = ExpInfo<TA>::kDim;
+  static const int kDimItem2 = ExpInfo<TB>::kDim;
+  static const int kDimItem3 = ExpInfo<TC>::kDim;
+  static const int kDim = kDimItem1;
+};
+
 } // namespace expr
 
 } // namespace lmlib
