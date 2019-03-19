@@ -209,10 +209,12 @@ struct ExpInfo<MakeTensorExp<T, SrcExp, dim, DType>> {
   static const int kDimSrc = ExpInfo<SrcExp>::kDim;
   static const int kDim = kDimSrc >= 0 ? dim : -1;
 };
+
 template <typename OP, typename TA, typename DType, int etype>
 struct ExpInfo<UnaryMapExp<OP, TA, DType, etype>> {
   static const int kDim = ExpInfo<TA>::kDim;
 };
+
 template <typename OP, typename TA, typename TB, typename DType, int etype>
 struct ExpInfo<BinaryMapExp<OP, TA, TB, DType, etype>> {
   static const int kDimLhs = ExpInfo<TA>::kDim;
@@ -224,6 +226,7 @@ struct ExpInfo<BinaryMapExp<OP, TA, TB, DType, etype>> {
                  : ((kDimRhs == 0 || kDimLhs == kDimRhs) ? kDimLhs : -1))
           : -1;
 };
+
 template <typename OP, typename TA, typename TB, typename TC, typename DType,
           int etype>
 struct ExpInfo<TernaryMapExp<OP, TA, TB, TC, DType, etype>> {
@@ -231,6 +234,12 @@ struct ExpInfo<TernaryMapExp<OP, TA, TB, TC, DType, etype>> {
   static const int kDimItem2 = ExpInfo<TB>::kDim;
   static const int kDimItem3 = ExpInfo<TC>::kDim;
   static const int kDim = kDimItem1;
+};
+
+template <int dim, typename DType, typename E> struct TypeCheck {
+  static const int kExpDim = ExpInfo<E>::kDim;
+  static const bool kMapPass = (kExpDim == 0 || kExpDim == dim);
+  static const bool kRedPass = (kExpDim > dim);
 };
 
 } // namespace expr
