@@ -242,6 +242,15 @@ template <int dim, typename DType, typename E> struct TypeCheck {
   static const bool kRedPass = (kExpDim > dim);
 };
 
+template <bool kPass> struct TypeCheckPass;
+// Todo : add static assert using C++11
+template <> struct TypeCheckPass<false> {};
+template <> struct TypeCheckPass<true> {
+  inline static void Error_All_Tensor_in_Exp_Must_Have_Same_Type(void) {}
+  inline static void Error_TypeCheck_Not_Pass_For_Reduce_Exp(void) {}
+  inline static void Error_Expression_Does_Not_Meet_Dimension_Req(void) {}
+};
+
 } // namespace expr
 
 } // namespace lmlib
