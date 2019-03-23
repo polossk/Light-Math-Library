@@ -3,6 +3,7 @@
 
 #include "./Dense.hpp"
 #include "./LMBase.hpp"
+#include "./Logging.hpp"
 
 namespace lmlib {
 namespace expr {
