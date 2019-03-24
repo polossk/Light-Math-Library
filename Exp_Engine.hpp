@@ -252,6 +252,9 @@ template <> struct TypeCheckPass<true> {
   inline static void Error_Expression_Does_Not_Meet_Dimension_Req(void) {}
 };
 
+template <int dim, typename E> struct ShapeCheck {
+  inline static Shape<dim> Check(const E &t);
+};
 } // namespace expr
 
 } // namespace lmlib
