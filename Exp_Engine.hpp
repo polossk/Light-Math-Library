@@ -255,6 +255,16 @@ template <> struct TypeCheckPass<true> {
 template <int dim, typename E> struct ShapeCheck {
   inline static Shape<dim> Check(const E &t);
 };
+template <int dim, typename DType> struct ShapeCheck<dim, ScalarExp<DType>> {
+  inline static Shape<dim> Check(const ScalarExp<DType> &exp) {
+    // use lowest dimension to mark scalar exp
+    Shape<dim> shape;
+    for (int i = 0; i < dim; ++i) {
+      shape[i] = 0;
+    }
+    return shape;
+  }
+};
 } // namespace expr
 
 } // namespace lmlib
