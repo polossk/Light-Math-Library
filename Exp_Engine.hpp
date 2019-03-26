@@ -265,6 +265,14 @@ template <int dim, typename DType> struct ShapeCheck<dim, ScalarExp<DType>> {
     return shape;
   }
 };
+template <int dim, typename DstDType, typename SrcDType, typename EType,
+          int etype>
+struct ShapeCheck<dim, TypecastExp<DstDType, SrcDType, EType, etype>> {
+  inline static Shape<dim>
+  Check(const TypecastExp<DstDType, SrcDType, EType, etype> &exp) {
+    return ShapeCheck<dim, EType>::Check(exp.exp);
+  }
+};
 } // namespace expr
 
 } // namespace lmlib
