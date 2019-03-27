@@ -273,6 +273,15 @@ struct ShapeCheck<dim, TypecastExp<DstDType, SrcDType, EType, etype>> {
     return ShapeCheck<dim, EType>::Check(exp.exp);
   }
 };
+template <int dim, typename E, typename DType>
+struct ShapeCheck<dim, TransposeExp<E, DType>> {
+  inline static Shape<dim> Check(const TransposeExp<E, DType> &e) {
+    // swap the lowest two dimensions
+    Shape<dim> s = ShapeCheck<dim, E>::Check(e.exp);
+    std::swap(s[0], s[1]);
+    return s;
+  }
+};
 } // namespace expr
 
 } // namespace lmlib
