@@ -282,6 +282,11 @@ struct ShapeCheck<dim, TransposeExp<E, DType>> {
     return s;
   }
 };
+template <int dim, typename DType> struct ShapeCheck<dim, Tensor<dim, DType>> {
+  inline static Shape<dim> Check(const Tensor<dim, DType> &t) {
+    return t.shape_;
+  }
+};
 } // namespace expr
 
 } // namespace lmlib
