@@ -287,6 +287,13 @@ template <int dim, typename DType> struct ShapeCheck<dim, Tensor<dim, DType>> {
     return t.shape_;
   }
 };
+template <int dim, typename SrcExp, typename T, typename DType>
+struct ShapeCheck<dim, MakeTensorExp<T, SrcExp, dim, DType>> {
+  inline static Shape<dim>
+  Check(const MakeTensorExp<T, SrcExp, dim, DType> &t) {
+    return t.shape_;
+  }
+};
 } // namespace expr
 
 } // namespace lmlib
