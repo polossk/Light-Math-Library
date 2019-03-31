@@ -294,6 +294,14 @@ struct ShapeCheck<dim, MakeTensorExp<T, SrcExp, dim, DType>> {
     return t.shape_;
   }
 };
+template <int dim, typename OP, typename TA, typename DType, int etype>
+struct ShapeCheck<dim, UnaryMapExp<OP, TA, DType, etype>> {
+  inline static Shape<dim> Check(const UnaryMapExp<OP, TA, DType, etype> &t) {
+    Shape<dim> s = ShapeCheck<dim, TA>::Check(t.src_);
+    return s;
+  }
+};
+
 } // namespace expr
 
 } // namespace lmlib
