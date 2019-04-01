@@ -302,6 +302,24 @@ struct ShapeCheck<dim, UnaryMapExp<OP, TA, DType, etype>> {
   }
 };
 
+template <int dim, typename OP, typename TA, typename TB, typename DType,
+          int etype>
+struct ShapeCheck<dim, BinaryMapExp<OP, TA, TB, DType, etype>> {
+  inline static Shape<dim>
+  Check(const BinaryMapExp<OP, TA, TB, DType, etype> &t) {
+    Shape<dim> shape1 = ShapeCheck<dim, TA>::Check(t.lhs_);
+    Shape<dim> shape2 = ShapeCheck<dim, TB>::Check(t.rhs_);
+    if (shape1[0] == 0)
+      return shape2;
+    if (shape2[0] == 0)
+      return shape1;
+    CHECK_EQ(shape1, shape2)
+        << "BinaryMapExp: Shapes of operands are not the same, "
+        << "Shape1=" << shape1 << ", Shape2=" << shape2;
+    return shape1;
+  }
+};
+
 } // namespace expr
 
 } // namespace lmlib
