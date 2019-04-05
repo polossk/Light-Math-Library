@@ -33,4 +33,5 @@
 *.log
 *.tlog
 *.log
-Debug/*.*
+Debug/
+.vscode/
