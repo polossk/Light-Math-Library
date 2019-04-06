@@ -4,8 +4,8 @@
 #include <iostream>
 #include <string>
 
-#include "Exp.hpp"
 #include "LMBase.hpp"
+#include "Exp.hpp"
 #include "Shape.hpp"
 #include "Stream.hpp"
 
