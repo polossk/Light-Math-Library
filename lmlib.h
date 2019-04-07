@@ -1,7 +1,7 @@
-#ifndef LMLIB_lmlin_HPP_
-#define LMLIB_lmlin_HPP_
+#ifndef LMLIB_H_
+#define LMLIB_H_
 
 #include "Dense.hpp"
-#inlucde "Exp_Engine.hpp"
+#include "Exp_Engine.hpp"
 
 #endif // LMLIB_lmlin_HPP_
