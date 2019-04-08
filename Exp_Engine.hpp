@@ -1,9 +1,10 @@
 #ifndef LMLIB_EXP_ENGINE_HPP_
 #define LMLIB_EXP_ENGINE_HPP_
 
-#include "./Dense.hpp"
 #include "./LMBase.hpp"
 #include "./Logging.hpp"
+#include "./Exp.hpp"
+#include "./Dense.hpp"
 
 namespace lmlib {
 namespace expr {
