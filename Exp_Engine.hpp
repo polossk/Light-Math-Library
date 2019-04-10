@@ -342,4 +342,11 @@ struct ShapeCheck<dim, TernaryMapExp<OP, TA, TB, TC, DType, etype>> {
 
 } // namespace lmlib
 
-#endif // LMLIB_  EXP_ENGINE_HPP_
+#include "./Dot_Engine.hpp"
+
+namespace lmlib {
+namespace expr {} // namespace expr
+
+} // namespace lmlib
+
+#endif // LMLIB_EXP_ENGINE_HPP_
